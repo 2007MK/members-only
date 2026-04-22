@@ -1,0 +1,12 @@
+const express = require("express");
+const { Router } = express;
+const { newMessage } = require("../controllers/messageController");
+const { isAuthorized } = require("../middlewares/authMiddlewares");
+
+const messageRouter = new Router();
+
+messageRouter.get("/new", isAuthorized, (req, res) => res.render("newMessage"));
+
+messageRouter.post("/new", newMessage);
+
+module.exports = messageRouter;

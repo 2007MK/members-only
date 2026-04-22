@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Become a Member</title>
+  </head>
+  <body>
+    <form action="/join" method="post">
+      <label for="secret_phrase"
+        >Enter the Secret Phrase to become a member :
+      </label>
+      <input type="text" id="secret_phrase" name="secret_phrase" required />
+      <button type="submit">Become a member</button>
+      <% if(locals.message) { %>
+        <p><%= message %></p>
+      <%}%>
+    </form>
+  </body>
+</html>

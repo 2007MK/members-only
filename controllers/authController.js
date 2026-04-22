@@ -27,7 +27,7 @@ const validateNewUser = [
     .isLength({ min: 3, max: 20 })
     .withMessage("Username must be 3–20 characters")
     .custom(async (value) => {
-      const user = await db.findUser(value);
+      const user = await db.findUser(value.toLowerCase());
       if (user) throw new Error("Username already exists");
     })
     .customSanitizer((value) => (value = value.toLowerCase())),
@@ -52,7 +52,12 @@ const validateLogin = [
 async function newUser(req, res) {
   const { fname, lname, username, password } = matchedData(req);
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { fname, lname, username, password: hashedPassword };
+  const user = {
+    fname,
+    lname,
+    username,
+    password: hashedPassword,
+  };
   try {
     await db.newUser(user);
     res.send("User created succesfully!");
@@ -101,3 +106,18 @@ module.exports.logout = (req, res, next) => {
     res.redirect("/");
   });
 };
+
+module.exports.newMember = [
+  [body("secret_phrase").escape()],
+  async (req, res) => {
+    const { secret_phrase } = req.body;
+    if (secret_phrase.toLowerCase() == process.env.SECRET_PHRASE) {
+      await db.newMember(req.user.id);
+      return res.send("Congratulations on becoming the member!");
+    } else {
+      return res.render("newMember", {
+        message: "Oops thats the wrong phrase!",
+      });
+    }
+  },
+];

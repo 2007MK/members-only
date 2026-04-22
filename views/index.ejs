@@ -6,13 +6,37 @@
     <title>Home</title>
   </head>
   <body>
-    <% if(locals.currentUser) {
+    <% if(currentUser) {
       %>
       <h1>Welcome, <%= currentUser.username%></h1>
-      <a href="/logout">Log Out</a>
+      <a href="/logout">Log Out</a> |
       <% } else { %>
       <h1>Welcome to the Members Only Site!</h1>
-      <a href="/login">Log In</a> | <a href="/signup">Sign Up</a>
+      <a href="/login">Log In</a> | <a href="/signup">Sign Up </a> | 
     <% } %>
+    <a href="/messages/new">Create New Message</a>
+    <% if(messages.length > 0) { %>
+      <ul>
+        <% messages.forEach((message) => { %>
+          <li>
+            <% if(currentUser && currentUser.ismember) { %>
+              <h2><strong>Posted By : <%= message.username %></strong></h2>
+            <% } else { %>
+              <h2><strong>Posted By : Anonymous</strong></h2>
+            <%}%>
+            <h3>Title : <%= message.title %></h3>
+            <p> Message : <%= message.message %></p>
+            <% if(currentUser && currentUser.isadmin) { %>
+              <form action="/messages/delete" method="post">
+                <input type="hidden" name="messageId" value="<%= message.id %>" />
+                <button type="submit">Delete</button>
+              </form>
+            <%}%>
+          </li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <p>No messages to display.</p>
+    <% } %> 
   </body>
 </html>

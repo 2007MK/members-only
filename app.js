@@ -3,6 +3,7 @@ const app = express();
 const session = require("express-session");
 require("dotenv").config();
 const authRouter = require("./routes/authRouter");
+const messageRouter = require("./routes/messageRouter");
 const passport = require("passport");
 const pool = require("./config/database");
 const pgStore = require("connect-pg-simple")(session);
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", authRouter);
+app.use("/messages", messageRouter);
 
 app.listen(3000, (error) => {
   if (error) throw error;
