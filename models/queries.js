@@ -34,6 +34,12 @@ async function getMessages() {
   return messages.rows;
 }
 
+async function deleteMessage(messageId) {
+  const query = `
+  DELETE FROM messages WHERE id = $1`;
+  await pool.query(query, [messageId]);
+}
+
 async function newMember(id) {
   const query = `
   UPDATE users
@@ -49,4 +55,5 @@ module.exports = {
   getMessages,
   newMessage,
   newMember,
+  deleteMessage,
 };

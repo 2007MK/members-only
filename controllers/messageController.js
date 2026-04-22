@@ -3,11 +3,9 @@ const db = require("../models/queries");
 
 const validateMessage = [
   body("title")
-    .escape()
     .isLength({ min: 3, max: 25 })
     .withMessage("Please give a smaller title"),
   body("message")
-    .escape()
     .isLength({ min: 3, max: 200 })
     .withMessage("Message should be between 3 and 200 characters."),
 ];
@@ -26,6 +24,16 @@ async function newMessage(req, res) {
 module.exports.getMessages = async (req, res) => {
   const messages = await db.getMessages();
   res.render("index", { messages });
+};
+
+module.exports.deleteMessage = async (req, res) => {
+  const { messageId } = req.body;
+  try {
+    await db.deleteMessage(messageId);
+    res.redirect("/");
+  } catch (error) {
+    throw error;
+  }
 };
 
 module.exports.newMessage = [
