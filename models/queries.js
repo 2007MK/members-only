@@ -1,9 +1,9 @@
 const pool = require("../config/database");
 
-async function newUser({ fname, lname, username, password }) {
+async function newUser({ fname, lname, username, password, isadmin }) {
   await pool.query(
-    "INSERT INTO users (fname, lname, username, password) VALUES ($1, $2, $3, $4)",
-    [fname, lname, username, password],
+    "INSERT INTO users (fname, lname, username, password, isadmin) VALUES ($1, $2, $3, $4, $5)",
+    [fname, lname, username, password, isadmin],
   );
 }
 

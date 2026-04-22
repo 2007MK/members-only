@@ -7,20 +7,27 @@
   </head>
   <body>
     <form action="/signup" method="post">
-      <label for="fname">First Name : </label>
+      <label for="fname">*First Name : </label>
       <input type="text" name="fname" id="fname" value = "<%=formData.fname || '' %>" required />
+      <br>
       <label for="lname">Last Name : </label>
       <input type="text" name="lname" id="lname" value = "<%=formData.lname || '' %>" />
-      <label for="username">Username : </label>
+      <br/ >
+      <label for="username">*Username : </label>
       <input type="text" name="username" id="username" value = "<%=formData.username || '' %>" required />
-      <label for="password">Password : </label>
+      <br>
+      <label for="password">*Password : </label>
       <input type="password" name="password" id="password" />
-      <label for="confirmPassword">Confirm Password : </label>
+      <br>
+      <label for="confirmPassword">*Confirm Password : </label>
       <input type="password" name="confirmPassword" id="confirmPassword" />
+      <label for="isadmin">Is Admin?</label>
+      <input type="checkbox" name="isadmin" id="isadmin" value="yes"/>
       <button type="submit">Sign Up</button>
     </form>
     <% errors && errors.forEach(error => { %>
           <p style="color: red;"> - <%= error.msg %></p>
     <% }); %>
+      <a href="/login">Already have an account? Log In</a>
   </body>
 </html>

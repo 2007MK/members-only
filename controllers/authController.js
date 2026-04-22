@@ -56,11 +56,13 @@ async function newUser(req, res) {
     fname,
     lname,
     username,
+    isadmin: req.body.isadmin == "yes",
     password: hashedPassword,
   };
+  console.log(user);
   try {
     await db.newUser(user);
-    res.send("User created succesfully!");
+    res.send("User created succesfully! <a href = '/'>Go to Homepage</a");
   } catch (error) {
     throw error;
   }
@@ -113,7 +115,9 @@ module.exports.newMember = [
     const { secret_phrase } = req.body;
     if (secret_phrase.toLowerCase() == process.env.SECRET_PHRASE) {
       await db.newMember(req.user.id);
-      return res.send("Congratulations on becoming the member!");
+      return res.send(
+        "Congratulations on becoming the member! <a href = '/'>Return to Homepage</a>",
+      );
     } else {
       return res.render("newMember", {
         message: "Oops thats the wrong phrase!",
